@@ -56,7 +56,8 @@
 
 ### 전체 도서 조회
 
-- 대표 이미지 (8개 씩)
+- 목록을 한 페이지에 n개 씩 보내줘야한다. (limit, offset req필요)
+- 대표 이미지
 - 제목
 - 작가
 - 요약 정보
@@ -65,7 +66,7 @@
 
 | Method               | GET                      |
 |----------------------|--------------------------|
-| **URI**              | /books                   |
+| **URI**              | /books?limit_books={page당 도서 수}&current_page={현재 page} |
 | **HTTP status code** | Success: 200, Fail: 404  |
 | **Request Body**     |                          |
 | **Response Body**    | [ { id: 도서 id, title: "제목", img: 이미지 id(piksum image #id), summary: "요약 정보", author: "작가", price: 가격, likes: 좋아요 수, pubDate: "출간일" },<br> { id: 도서 id, title: "제목", img: 이미지 id(piksum image #id), summary: "요약 정보", author: "작가", price: 가격, likes: 좋아요 수, pubDate: "출간일"} ... ] |
@@ -95,12 +96,13 @@
 
 ### 카테고리별 도서 목록 조회
 
+- 페이징 필요
 - new: true => 신간 조회 (기준: 출간일 1달 이내)
 
 
 | Method               | GET                      |
 |----------------------|--------------------------|
-| **URI**              | /books?categoryId={category_id}&new_book={boolean} |
+| **URI**              | /books?category_id={category_id}&new_book={boolean} |
 | **HTTP status code** | Success: 200, Fail: 404  |
 | **Request Body**     |                          |
 | **Response Body**    | [ { id: 도서 id, title: "제목", img: 이미지 id(piksum image #id), summary: "요약 정보", author: "작가", price: 가격, likes: 좋아요 수, pubDate: "출간일" },<br> { id: 도서 id, title: "제목", img: 이미지 id(piksum image #id), summary: "요약 정보", author: "작가", price: 가격, likes: 좋아요 수, pubDate: "출간일" } ... ] |
@@ -112,6 +114,7 @@
 
 ### 카테고리 전체 조회
 
+- 페이징 필요
 - 메인 페이지
 
 | Method               | GET                      |
@@ -156,10 +159,10 @@
 |----------------------|--------------------------------------------------|
 | **URI**              | /carts                                           |
 | **HTTP status code** | Success: 201, Fail: 400                          |
-| **Request Body**     | { bookId: 도서 id, count: 수량 }                  |
+| **Request Body**     | { book_id: 도서 id, quantity: 수량 }              |
 | **Response Body**    |                                                  |
 
-### 장바구니 조회
+### 장바구니 조회 / 선택한 장바구니 상품 목록 조회
 
 - 대표이미지
 - 제목
@@ -171,7 +174,7 @@
 |----------------------|--------------------------------------------------|
 | **URI**              | /carts                                           |
 | **HTTP status code** | Success: 200, Fail: 404                          |
-| **Request Body**     |                                                  |
+| **Request Body**     | { userId: 회원 id, selected: [cartItemsId, cartItemsId ... ] } |
 | **Response Body**    | [ { id: 장바구니 도서 id, bookId: 도서 id, title: "도서 제목", summary: "요약 정보", count: 수량, price: 가격 }, <br>{ id: 장바구니 도서 id, bookId: 도서 id, title: "도서 제목", summary: "요약 정보", count: 수량, price: 가격 } ... ] |
 
 ### 장바구니 도서 삭제
@@ -182,17 +185,6 @@
 | **HTTP status code** | Success: 200, Fail: 400 |
 | **Request Body**     |                         |
 | **Response Body**    |                         |
-
-### 장바구니 주문 예상 상품 목록 조회
-
-- 장바구니에서 체크된 상품에 대한 주문 예상 상품 목록 조회 (제목, 요약 정보, 가격)
-
-| Method               | GET                                              |
-|----------------------|--------------------------------------------------|
-| **URI**              | /..                                              |
-| **HTTP status code** | Success: 200, Fail: 404                          |
-| **Request Body**     | [ cartItemId, cartItemId, ... ]                  |
-| **Response Body**    | [ { cartItemId: 장바구니 도서 id, bookId: 도서 id, title: "도서 제목", summary: "요약 정보", count: 수량, price: 가격 }, <br>{ cartItemId: 장바구니 도서 id, bookId: 도서 id, title: "도서 제목", summary: "요약 정보", count: 수량, price: 가격 } ... ] |
 
 </details>
 
